@@ -22,6 +22,9 @@ class CharacterDataset:
 
         imgs = [np.asarray(Image.open(os.path.join(path, imgPath)))
                 for imgPath in os.listdir(path)]
+        border = 1
+        imgs = [cv2.copyMakeBorder(
+            img, border, border, border, border, cv2.BORDER_CONSTANT)for img in imgs]
         return CharacterDataset(label, imgs)
 
     def getRandomImage(self):
@@ -39,6 +42,12 @@ class Word:
             self.img = charImg
             return self.img
 
+        if self.img.shape[0] < charImg.shape[0]:
+            self.img = np.concatenate(
+                (np.ones((charImg.shape[0] - self.img.shape[0], self.img.shape[1])), self.img,))
+        elif self.img.shape[0] > charImg.shape[0]:
+            charImg = np.concatenate(
+                (np.ones((self.img.shape[0]-charImg.shape[0], charImg.shape[1])), charImg,))
         self.img = np.concatenate((self.img, charImg), axis=1)
         return self.img
 
@@ -61,7 +70,8 @@ class Generator:
         for char in chars:
             charDataset = self.__getDatasetByChar(char)
             word.push(charDataset)
-            self.imshow(word.img)
+            # self.imshow(word.img)
+        return word.img
 
     def imshow(self, img):
         cv2.imshow('generator', img)
@@ -70,4 +80,4 @@ class Generator:
 
 
 generator = Generator('characters')
-generator.generate('กกกก')
+generator.imshow(generator.generate('สวัสดั'))
