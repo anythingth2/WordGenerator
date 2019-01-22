@@ -31,14 +31,16 @@ class ImagePackage:
             left, top, right, bottom = int(left), int(
                 top), int(right), int(bottom)
             cropImage = self.image[top:bottom, left:right]
-            
+
             tags = obj['tags']
-            if len(tags)>0:
+            if len(tags) > 0:
                 tag = tags[0]
             else:
                 continue
-            
+
             self.characters.append(Character(cropImage, tag))
+            # cv2.imshow('f', cropImage)
+            # cv2.waitKey()
 
 
 class SuperviselyDecoder:
@@ -58,10 +60,24 @@ class SuperviselyDecoder:
             img = cv2.imread(imgPath)
             with open(self.annotationsPath + '/'+annoPath, 'r', encoding='utf-8') as f:
                 annotation = json.loads(f.read(), encoding='utf-8')
-            print(annoPath.center(15,'-',))
+            print(annoPath.center(15, '-',))
             self.imagePackages.append(ImagePackage(img, annotation))
+
+    def decodeTo(self, outputPath):
+        i = 0
+        if not os.path.exists(outputPath):
+            os.mkdir(outputPath)
+
+        for imagePackage in self.imagePackages:
+            for character in imagePackage.characters:
+                if len(character.tag) == 1:
+                    savedFolder = outputPath + '/'+character.tag
+                    if not os.path.exists(savedFolder):
+                        os.mkdir(savedFolder)
+                    i += 1
+                    Image.fromarray(character.image).save('{}/{}.png'.format(savedFolder, i))
 
 
 decoder = SuperviselyDecoder(
     './datasets/68PersonsBmp', './datasets/NSC__68PersonsBmp')
-print(decoder.imagePackages[0].characters[0])
+decoder.decodeTo('./character')
