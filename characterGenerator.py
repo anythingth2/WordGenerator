@@ -3,28 +3,65 @@
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
 import os
+import json
+import cv2
+import glob
 
 
-CHARACTERS_SET = 'กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุูเโใไๅๆ็่้๊๋์ํ๎0123456789abcdefgijklmnopqrstuvwxyz'
-# CHARACTERS_SET = ' ่'
-FONT_FOLDER = 'font'
-OUTPUT_FOLDER = 'characters'
-fonts = [ImageFont.truetype(os.path.join(FONT_FOLDER, path), 64)
-         for path in os.listdir(FONT_FOLDER)]
+class Character:
+    def __init__(self, image, tag):
+        self.image = image
+        self.tag = tag
 
-for char in CHARACTERS_SET:
-    i = 0
-    workspacePath = os.path.join(OUTPUT_FOLDER, char)
-    if not os.path.exists(os.path.join(OUTPUT_FOLDER, char)):
-        os.mkdir(workspacePath)
-    for font in fonts:
 
-        textWidth, textHeight = font.getsize(char)
+class ImagePackage:
+    def __init__(self, image, annotation):
+        self.image = image
+        self.annotation = annotation
+        self.characters = []
+        self.createCharacter()
 
-        img = Image.new('L', (textWidth, textHeight), color=(255,))
-        draw = ImageDraw.Draw(img)
-        draw.text((0, 0), char, fill=0, font=font)
-        i += 1
-        img.save(os.path.join(workspacePath, '{}.png'.format(i)))
+    def createCharacter(self,):
+        objs = self.annotation['objects']
+        self.characters = []
+        for obj in objs:
+            p1, p2 = obj['points']['exterior']
+            left, top = p1
+            right, bottom = p2
+            left, top, right, bottom = int(left), int(
+                top), int(right), int(bottom)
+            cropImage = self.image[top:bottom, left:right]
+            
+            tags = obj['tags']
+            if len(tags)>0:
+                tag = tags[0]
+            else:
+                continue
+            
+            self.characters.append(Character(cropImage, tag))
 
-        print(char, (textWidth, textHeight))
+
+class SuperviselyDecoder:
+    IMAGE_FORMATS = ['bmp', 'jpg', 'jpeg', 'png']
+
+    def __init__(self, datasetPath, annotationsPath):
+        self.datasetPath = datasetPath
+        self.annotationsPath = annotationsPath + '/ann'
+        self.imagePackages = []
+        self.__load()
+
+    def __load(self):
+        self.imagePackages = []
+        for annoPath in os.listdir(self.annotationsPath):
+            filename = annoPath.split('.')[0]
+            imgPath = glob.glob(self.datasetPath + '/' + filename + '*')[0]
+            img = cv2.imread(imgPath)
+            with open(self.annotationsPath + '/'+annoPath, 'r', encoding='utf-8') as f:
+                annotation = json.loads(f.read(), encoding='utf-8')
+            print(annoPath.center(15,'-',))
+            self.imagePackages.append(ImagePackage(img, annotation))
+
+
+decoder = SuperviselyDecoder(
+    './datasets/68PersonsBmp', './datasets/NSC__68PersonsBmp')
+print(decoder.imagePackages[0].characters[0])
