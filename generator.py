@@ -22,6 +22,7 @@ class CharacterDataset:
 
         imgs = [np.asarray(Image.open(os.path.join(path, imgPath)))
                 for imgPath in os.listdir(path)]
+        print('load '+label)
         # border = 1
         # imgs = [cv2.copyMakeBorder(
         #     img, border, border, border, border, cv2.BORDER_CONSTANT)for img in imgs]
@@ -44,10 +45,10 @@ class Word:
 
         if self.img.shape[0] < charImg.shape[0]:
             self.img = np.concatenate(
-                (np.ones((charImg.shape[0] - self.img.shape[0], self.img.shape[1]))*255, self.img,))
+                (np.ones((charImg.shape[0] - self.img.shape[0], self.img.shape[1],3),dtype='uint8')*255, self.img,))
         elif self.img.shape[0] > charImg.shape[0]:
             charImg = np.concatenate(
-                (np.ones((self.img.shape[0]-charImg.shape[0], charImg.shape[1]))*255, charImg,))
+                (np.ones((self.img.shape[0]-charImg.shape[0], charImg.shape[1],3),dtype='uint8')*255, charImg))
         self.img = np.concatenate((self.img, charImg), axis=1)
         return self.img
 
@@ -91,6 +92,6 @@ class Generator:
         cv2.destroyAllWindows()
 
 
-# generator = Generator('characters')
-# # generator.imshow(generator.generate('สดสดสดสดส'))
+generator = Generator('characters')
+generator.imshow(generator.generate('สดสดสดสดส'))
 # generator.generateAndSave('output', ['ไทย', 'ราคา', 'คอม', 'กระดาษ'])

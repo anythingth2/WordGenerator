@@ -80,4 +80,4 @@ class SuperviselyDecoder:
 
 decoder = SuperviselyDecoder(
     './datasets/68PersonsBmp', './datasets/NSC__68PersonsBmp')
-decoder.decodeTo('./character')
+decoder.decodeTo('./characters')
