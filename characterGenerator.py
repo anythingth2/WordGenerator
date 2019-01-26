@@ -23,16 +23,18 @@ class ImagePackage:
         self.createCharacter()
 
     def __preprocess(self, img):
+        
+
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        originalImg = img.copy()
+        
         img = cv2.medianBlur(img, 5)
-        # img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)
         _, img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
         _, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, 3)
         contours.sort(key=lambda cnt: cv2.contourArea(cnt, True), reverse=True)
         cnt = contours[0]
         x, y, w, h = cv2.boundingRect(cnt)
-        # cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),1)
-        img = img[y:y+h, x:x+w]
+        img = originalImg[y:y+h, x:x+w]
 
         if w < h:
             factor = ImagePackage.SIZE/h
@@ -72,10 +74,7 @@ class ImagePackage:
                 tag = tags[0]
             else:
                 continue
-
             self.characters.append(Character(cropImage, tag))
-            # cv2.imshow('f', cropImage)
-            # cv2.waitKey()
 
 
 class SuperviselyDecoder:

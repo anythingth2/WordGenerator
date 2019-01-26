@@ -38,34 +38,21 @@ class Word:
 
     def __init__(self):
         self.img = None
-        self.lastCharDataset = None
         self.grid = None
-        self.currentIndex = -1
-        self.currentUpper = 0
-        self.currentLower = 0
-        self.maxUpper = 0
-        self.maxLower = 0
 
     def push(self, charDataset):
         charImg = charDataset.getRandomImage()
 
-        if self.img is None:
-            self.img = charImg
-            self.currentIndex += 1
+        if self.grid is None:
             self.grid = np.array([[None,None,charDataset,None]], 'object').reshape([-1,1])
-            # self.chars.append([charDataset])
-            return self.img
+            return
 
         if charDataset.label in Word.UPPER_CHARACTERS:
             self.__concateUpper(charDataset)
-            pass
         elif charDataset.label in Word.LOWER_CHARACTERS:
             self.__concateLower(charDataset)
-            pass
         else:
             self.__concateNormal(charDataset)
-            pass
-        self.lastCharDataset = charDataset
 
     def __concateNormal(self, charDataset):
         pad = np.array([None for i in range(
@@ -96,11 +83,12 @@ class Word:
 
                 if charDataset is not None:
                     img[i*SIZE:i*SIZE+SIZE, j*SIZE:j*SIZE+SIZE] = charDataset.getRandomImage()
-                    print(charDataset.label, end='\t')
+                    # print(charDataset.label, end='\t')
                 else:
-                    print('None', end='\t')
-            print()
-        print('\n')
+                    # print('None', end='\t')
+                    pass
+        #     print()
+        # print('\n')
         return img
 
 
@@ -132,9 +120,6 @@ class Generator:
         for word in words:
             i += 1
             img = self.generate(word)
-            # self.imshow(img)
-            # Image.fromarray(img).save(
-            #     os.path.join(path, '{}.png'.format(word)))
             cv2.imwrite(os.path.join(path, '{}.png'.format(i)), img)
 
     def imshow(self, img):
@@ -144,6 +129,6 @@ class Generator:
 
 
 generator = Generator('characters')
-generator.imshow(generator.generate(
-    'ฉัตรชัย'))
-# generator.generateAndSave('output', ['ไทย', 'ราคา', 'คอม', 'กระดาษ'])
+# generator.imshow(generator.generate(
+#     'ฉัตรชัย'))
+generator.generateAndSave('output', ['การรู้จำลายมือเขียนไทย', 'ราคา', 'คอม', 'กระดาษ'])
