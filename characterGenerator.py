@@ -13,7 +13,6 @@ class Character:
         self.image = image
         self.tag = tag
 
-
 class ImagePackage:
     SIZE = 32
 
