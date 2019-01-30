@@ -68,7 +68,7 @@ class ImagePackage:
             left, top, right, bottom = int(left), int(
                 top), int(right), int(bottom)
             cropImage = self.image[top:bottom, left:right]
-            cropImage = self.__preprocess(cropImage)
+            # cropImage = self.__preprocess(cropImage)
             tags = obj['tags']
             if len(tags) > 0:
                 tag = tags[0]

@@ -6,6 +6,7 @@ import os
 import matplotlib.pyplot as plt
 import random
 from PIL import Image
+import dataset_generator
 
 
 class CharacterDataset:
@@ -20,9 +21,9 @@ class CharacterDataset:
 
         label = os.path.basename(path)
 
-        imgs = [np.asarray(Image.open(os.path.join(path, imgPath)))
+        imgs = [cv2.cvtColor(np.asarray(Image.open(os.path.join(path, imgPath))), cv2.COLOR_BGR2GRAY)
                 for imgPath in os.listdir(path)]
-        
+
         # imgs = [np.ones((30,30),dtype='uint8')*255
         #         for imgPath in os.listdir(path)]
         # border = 1
@@ -45,7 +46,7 @@ class Word:
         self.randomOffset = randomOffset
 
     def push(self, charDataset):
-        
+
         charImg = charDataset.getRandomImage()
 
         if self.grid is None:
@@ -104,8 +105,7 @@ class Word:
                         y = i*(SIZE+MAX_OFFSET)
                         w = SIZE
                         h = SIZE
-                        
-                        img[y:y+h, x:x +w] = charDataset.getRandomImage()
+                        img[y:y+h, x:x + w] = charDataset.getRandomImage()
                     else:
                         img[i*SIZE:i*SIZE+SIZE, j*SIZE:j*SIZE +
                             SIZE] = charDataset.getRandomImage()
@@ -118,9 +118,65 @@ class Word:
         # print('\n')
         return img
 
+    def printGrid(self):
+        for row in self.grid:
+            for charDataset in row:
+                if charDataset is not None:
+                    print(charDataset.label, end='\t')
+                else:
+                    print('None', end='\t')
+            print()
+
+    def renderDynamic(self):
+        def pasteImage(img, pos, thumpnail):
+            thumpnail = thumpnail.copy()
+            h, w = thumpnail.shape
+            x, y = pos
+            img[y:y+h, x:x+w] = thumpnail
+            
+            
+        SIZE = 50
+        img = np.ones(np.array(self.grid.shape) * 50, dtype='uint8')*255
+        startY = 100
+        cursorX = 0
+        cursorY = startY
+        for index in range(self.grid.shape[1]):
+            cursorY = startY
+            upper1, upper2, consonant, lower = self.grid[:, index]
+
+            consonantImg = consonant.getRandomImage()
+            pasteImage(img, (cursorX, startY), consonantImg)
+            if upper2 != None:
+                upper2Img = upper2.getRandomImage()
+                cursorY -= upper2Img.shape[0]
+                offsetX = (consonantImg.shape[1]-upper2Img.shape[1])//2
+                if cursorX+offsetX not in range(img.shape[1]):
+                    offsetX = 0
+                pasteImage(
+                    img, (cursorX + offsetX, cursorY), upper2Img)
+            if upper1 != None:
+                upper1Img = upper1.getRandomImage()
+                cursorY -= upper1Img.shape[0]
+                offsetX = (consonantImg.shape[1]-upper1Img.shape[1])//2
+                if cursorX+offsetX not in range(img.shape[1]):
+                    offsetX = 0
+                pasteImage(
+                    img, (cursorX +offsetX , cursorY), upper1Img)
+
+            if lower != None:
+                lowerImg = lower.getRandomImage()
+                offsetX = (consonantImg.shape[1]-lowerImg.shape[1])//2
+                if cursorX+offsetX not in range(img.shape[1]):
+                    offsetX = 0
+                pasteImage(
+                    img, (cursorX+offsetX, cursorY+consonantImg.shape[0]), lowerImg)
+            cursorX += consonantImg.shape[1]
+
+        return img
+
 
 class Generator:
-    def __init__(self, charaterDatasetPath,randomOffset=False):
+    def __init__(self, charaterDatasetPath, randomOffset=False):
         self.characterDatasetPath = charaterDatasetPath
         self.randomOffset = randomOffset
         self.charDatasets = [CharacterDataset.loadFrom(os.path.join(
@@ -136,10 +192,14 @@ class Generator:
         chars = list(word)
         word = Word(randomOffset=self.randomOffset)
         for char in chars:
-            charDataset = self.__getDatasetByChar(char)
-            word.push(charDataset)
+            try:
+                charDataset = self.__getDatasetByChar(char)
+                word.push(charDataset)
+            except:
+                print(char, end='')
+                # exit()
 
-        return word.render()
+        return word.renderDynamic()
 
     def generateAndSave(self, path, words):
         if not os.path.exists(path):
@@ -148,7 +208,7 @@ class Generator:
         for word in words:
             i += 1
             img = self.generate(word)
-            cv2.imwrite(os.path.join(path, '{}.png'.format(i)), img)
+            cv2.imwrite(os.path.join(path, '{}.png'.format(word)), img)
 
     def imshow(self, img):
         cv2.imshow('generator', img)
@@ -156,8 +216,10 @@ class Generator:
         cv2.destroyAllWindows()
 
 
-generator = Generator('characters',randomOffset=False)
+ignoreChar ='.ๅำ'
+generator = Generator('characters', randomOffset=False)
 # generator.imshow(generator.generate(
 #     'ฉัตรชัย'))
+# generator.generateAndSave('test_output', ['ฉั่ตูรชั้ยุ'])
 generator.generateAndSave(
-    'output', ['การรู้จำลายมือเขียนไทย', 'ราคา', 'คอม', 'กระดาษ'])
+    'output', [dataset_generator.generateWord(i,ignoreChar) for i in range(10, 100)])
