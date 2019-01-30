@@ -145,7 +145,8 @@ class Word:
             upper1, upper2, consonant, lower = self.grid[:, index]
 
             consonantImg = consonant.getRandomImage()
-            pasteImage(img, (cursorX, startY), consonantImg)
+            cursorY -= consonantImg.shape[0]
+            pasteImage(img, (cursorX, cursorY), consonantImg)
             if upper2 != None:
                 upper2Img = upper2.getRandomImage()
                 cursorY -= upper2Img.shape[0]
@@ -220,6 +221,6 @@ ignoreChar ='.ๅำ'
 generator = Generator('characters', randomOffset=False)
 # generator.imshow(generator.generate(
 #     'ฉัตรชัย'))
-# generator.generateAndSave('test_output', ['ฉั่ตูรชั้ยุ'])
-generator.generateAndSave(
-    'output', [dataset_generator.generateWord(i,ignoreChar) for i in range(10, 100)])
+generator.generateAndSave('test_output', ['ฉั้ตูรชั๋ย'])
+# generator.generateAndSave(
+#     'output', [dataset_generator.generateWord(i,ignoreChar) for i in range(10, 100)])
