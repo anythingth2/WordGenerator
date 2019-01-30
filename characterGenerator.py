@@ -13,6 +13,7 @@ class Character:
         self.image = image
         self.tag = tag
 
+
 class ImagePackage:
     SIZE = 32
 
@@ -23,11 +24,10 @@ class ImagePackage:
         self.createCharacter()
 
     def __preprocess(self, img):
-        
 
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         originalImg = img.copy()
-        
+
         img = cv2.medianBlur(img, 5)
         _, img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
         _, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, 3)
@@ -49,10 +49,10 @@ class ImagePackage:
         else:
             top = (ImagePackage.SIZE-h)//2
             bottom = top
-        if left+right+w<ImagePackage.SIZE:
-            left +=1
-        if top+bottom+h<ImagePackage.SIZE:
-            top +=1
+        if left+right+w < ImagePackage.SIZE:
+            left += 1
+        if top+bottom+h < ImagePackage.SIZE:
+            top += 1
         img = cv2.copyMakeBorder(
             img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
 
