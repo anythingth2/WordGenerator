@@ -17,9 +17,10 @@ class Character:
 class ImagePackage:
     SIZE = 32
 
-    def __init__(self, image, annotation):
+    def __init__(self, image, annotation,preprocess=False):
         self.image = image
         self.annotation = annotation
+        self.preprocess = preprocess
         self.characters = []
         self.createCharacter()
 
@@ -103,7 +104,8 @@ class ImagePackage:
             left, top, right, bottom = int(left), int(
                 top), int(right), int(bottom)
             cropImage = self.image[top:bottom, left:right]
-            cropImage = self.__preprocess(cropImage)
+            if self.preprocess:
+                cropImage = self.__preprocess(cropImage)
             tags = obj['tags']
             if len(tags) > 0:
                 tag = tags[0]
@@ -115,28 +117,29 @@ class ImagePackage:
 class SuperviselyDecoder:
     IMAGE_FORMATS = ['bmp', 'jpg', 'jpeg', 'png']
 
-    def __init__(self, datasetPath, annotationsPath):
-        self.datasetPath = datasetPath
-        self.annotationsPath = annotationsPath + '/ann'
+    def __init__(self, datasetPaths):
         self.imagePackages = []
-        self.__load()
+        for datasetPath in datasetPaths:
+            self.__load(datasetPath)
 
-    def __load(self):
+    def __load(self,datasetPath):
+        imgDatasetPath = datasetPath + '/img'
+        anntationPath = datasetPath + '/ann'
+        
         self.imagePackages = []
-        for annoPath in os.listdir(self.annotationsPath):
-            filename = annoPath.split('.')[0]
-            imgPath = glob.glob(self.datasetPath + '/' + filename + '*')[0]
+        for annoPath in os.listdir(anntationPath):
+            filename = '.'.join(annoPath.split('.')[:-1])
+            imgPath = glob.glob(imgDatasetPath + '/' + filename + '*')[0]
             img = cv2.imread(imgPath)
-            with open(self.annotationsPath + '/' + annoPath, 'r', encoding='utf-8') as f:
+            with open(anntationPath + '/' + annoPath, 'r', encoding='utf-8') as f:
                 annotation = json.loads(f.read(), encoding='utf-8')
-            print(annoPath.center(15, '-', ))
+            print(annoPath.center(16, '-', ))
             self.imagePackages.append(ImagePackage(img, annotation))
 
-    def decodeTo(self, outputPath):
+    def decodeCharacterTo(self, outputPath):
         i = 0
         if not os.path.exists(outputPath):
             os.mkdir(outputPath)
-
         for imagePackage in self.imagePackages:
             for character in imagePackage.characters:
                 if len(character.tag) == 1:
@@ -146,8 +149,17 @@ class SuperviselyDecoder:
                     i += 1
                     Image.fromarray(character.image).save(
                         '{}/{}.png'.format(savedFolder, i))
-
+    def decodeSentence(self):
+        imgs = []
+        tags = []
+        for imagePackage in self.imagePackages:
+            for character in imagePackage.characters:
+                if len(character.tag) > 1: 
+                    imgs.append(character.image)
+                    tags.append(character.tag)
+        return imgs, tags
 
 decoder = SuperviselyDecoder(
-    './datasets/68PersonsBmp', './datasets/NSC__68PersonsBmp')
-decoder.decodeTo('./characters')
+   glob.glob('./datasets/*'))
+decoder.decodeCharacterTo('./characters')
+decoder.decodeSentence()

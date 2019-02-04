@@ -36,18 +36,23 @@ class CharacterDataset:
 
     def getRandomImage(self):
         return self.imgs[random.randint(0, len(self.imgs)-1)]
-
+    
+    def getMaxShape(self):
+        widths = list(map(lambda img:img.shape[1],self.imgs))
+        heights = list(map(lambda img:img.shape[0],self.imgs))
+        return max(heights),max(widths)
 
 class Word:
 
     UPPER_CHARACTERS = 'ิีึื็่้๊๋์ํ๎ั'
     LOWER_CHARACTERS = 'ฺุู'
 
-    def __init__(self, randomOffset=False):
+    def __init__(self, randomOffset=False,maxHeight=None,maxWidth=None):
         self.img = None
         self.grid = None
         self.randomOffset = randomOffset
-
+        self.maxHeight = maxHeight
+        self.maxWidth = maxWidth
     def push(self, charDataset):
 
         charImg = charDataset.getRandomImage()
@@ -137,9 +142,12 @@ class Word:
             x, y = pos
             img[y:y+h, x:x+w] = thumpnail
             # print(x,y,w,h)
+        if self.maxWidth == None or self.maxHeight == None:
+            SIZE = 50
+            img = np.ones(np.array(self.grid.shape) * SIZE, dtype='uint8')*255
+        else:
+            img = np.ones(np.array(self.grid.shape) * (self.maxHeight,self.maxWidth) , dtype='uint8')*255
             
-        SIZE = 50
-        img = np.ones(np.array(self.grid.shape) * 50, dtype='uint8')*255
         startY = 150
         cursorX = 0
         cursorY = startY
@@ -185,16 +193,22 @@ class Generator:
         self.randomOffset = randomOffset
         self.charDatasets = [CharacterDataset.loadFrom(os.path.join(
             self.characterDatasetPath, charPath)) for charPath in os.listdir(self.characterDatasetPath)]
-
+        self.maxShape = self.__getMaxShapeCharacterDatasets()
     def __getDatasetByChar(self, char):
         for charDataset in self.charDatasets:
             if charDataset.label == char:
                 return charDataset
         return None
 
+    def __getMaxShapeCharacterDatasets(self):
+        shapes = list(map(lambda characterDataset: characterDataset.getMaxShape(),self.charDatasets))
+        maxWidth = max(list(map(lambda shape:shape[0],shapes)))
+        maxHeight = max(list(map(lambda shape:shape[1],shapes)))
+        return maxHeight,maxWidth
+    
     def generate(self, word):
         chars = list(word)
-        word = Word(randomOffset=self.randomOffset)
+        word = Word(randomOffset=self.randomOffset,)
         for char in chars:
             try:
                 charDataset = self.__getDatasetByChar(char)

@@ -1,0 +1,556 @@
+{
+    "tags": [],
+    "description": "",
+    "objects": [
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e09\u0e31\u0e15\u0e23\u0e0a\u0e31\u0e22"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        506.0,
+                        216.0
+                    ],
+                    [
+                        735.0,
+                        314.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e41\u0e0b\u0e48\u0e15\u0e31\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        852.0,
+                        205.0
+                    ],
+                    [
+                        1074.0,
+                        311.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e0a\u0e32\u0e22"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1630.0,
+                        253.0
+                    ],
+                    [
+                        1751.0,
+                        319.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "20"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1954.0,
+                        252.0
+                    ],
+                    [
+                        2028.0,
+                        315.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e40\u0e1b\u0e47\u0e19\u0e21\u0e19\u0e38\u0e29\u0e22\u0e4c\u0e2a\u0e38\u0e14\u0e1b\u0e23\u0e30\u0e40\u0e2a\u0e23\u0e34\u0e10\u0e40\u0e25\u0e34\u0e28\u0e04\u0e38\u0e13\u0e04\u0e48\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        237.0,
+                        474.0
+                    ],
+                    [
+                        981.0,
+                        605.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e01\u0e27\u0e48\u0e32\u0e1a\u0e23\u0e23\u0e14\u0e32\u0e1d\u0e39\u0e07\u0e2a\u0e31\u0e15\u0e27\u0e4c\u0e40\u0e14\u0e23\u0e31\u0e08\u0e09\u0e32\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1015.0,
+                        477.0
+                    ],
+                    [
+                        1629.0,
+                        606.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e08\u0e07\u0e1d\u0e48\u0e32\u0e1f\u0e31\u0e19\u0e1e\u0e31\u0e12\u0e19\u0e32\u0e27\u0e34\u0e0a\u0e32\u0e01\u0e32\u0e23"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        222.0,
+                        758.0
+                    ],
+                    [
+                        687.0,
+                        857.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e2d\u0e22\u0e48\u0e32\u0e25\u0e49\u0e32\u0e07\u0e1c\u0e25\u0e32\u0e0d\u0e24\u0e45\u0e40\u0e02\u0e48\u0e19\u0e06\u0e48\u0e32\u0e1a\u0e35\u0e11\u0e32\u0e43\u0e04\u0e23"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        711.0,
+                        723.0
+                    ],
+                    [
+                        1418.0,
+                        867.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e44\u0e21\u0e48\u0e16\u0e37\u0e2d\u0e42\u0e17\u0e29\u0e42\u0e01\u0e23\u0e18\u0e41\u0e0a\u0e48\u0e07\u0e0b\u0e31\u0e14\u0e2e\u0e36\u0e14\u0e2e\u0e31\u0e14\u0e14\u0e48\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        223.0,
+                        1014.0
+                    ],
+                    [
+                        955.0,
+                        1130.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e1b\u0e0f\u0e34\u0e1a\u0e31\u0e15\u0e34\u0e1b\u0e23\u0e30\u0e1e\u0e24\u0e15\u0e34\u0e01\u0e0e\u0e01\u0e33\u0e2b\u0e19\u0e14\u0e43\u0e08"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        249.0,
+                        1269.0
+                    ],
+                    [
+                        866.0,
+                        1406.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e1e\u0e39\u0e14\u0e08\u0e32\u0e43\u0e2b\u0e49\u0e08\u0e4a\u0e30 \u0e46 \u0e08\u0e4b\u0e32 \u0e46 \u0e19\u0e48\u0e32\u0e1f\u0e31\u0e07\u0e40\u0e2d\u0e22\u0e2f"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        889.0,
+                        1260.0
+                    ],
+                    [
+                        1607.0,
+                        1417.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e1b\u0e25\u0e32\u0e27\u0e32\u0e2c \u0e01\u0e31\u0e1a \u0e2e\u0e34\u0e1b\u0e42\u0e1b\u0e42\u0e1b\u0e40\u0e15\u0e21\u0e31\u0e2a"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        244.0,
+                        1524.0
+                    ],
+                    [
+                        847.0,
+                        1643.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e14\u0e39\u0e08\u0e30\u0e44\u0e21\u0e48\u0e04\u0e48\u0e2d\u0e22\u0e40\u0e01\u0e35\u0e48\u0e22\u0e27\u0e01\u0e31\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        860.0,
+                        1517.0
+                    ],
+                    [
+                        1281.0,
+                        1641.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e41\u0e15\u0e48\u0e21\u0e31\u0e19\u0e2d\u0e32\u0e08\u0e40\u0e1b\u0e47\u0e19\u0e0d\u0e32\u0e15\u0e34\u0e42\u0e22\u0e21\u0e01\u0e31\u0e19\u0e2d\u0e22\u0e39\u0e48"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1318.0,
+                        1515.0
+                    ],
+                    [
+                        2105.0,
+                        1630.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e19\u0e31\u0e48\u0e19\u0e40\u0e1b\u0e47\u0e19\u0e1c\u0e25\u0e01\u0e32\u0e23\u0e28\u0e36\u0e01\u0e29\u0e32\u0e02\u0e2d\u0e07\u0e19\u0e31\u0e01\u0e27\u0e34\u0e08\u0e31\u0e22\u0e2a\u0e16\u0e32\u0e1a\u0e31\u0e19\u0e40\u0e17\u0e04\u0e42\u0e19\u0e42\u0e25\u0e22\u0e35\u0e42\u0e15\u0e40\u0e01\u0e35\u0e22\u0e27 \u0e43\u0e19\u0e0d\u0e35\u0e48\u0e1b\u0e38\u0e48\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        239.0,
+                        1759.0
+                    ],
+                    [
+                        1839.0,
+                        1928.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e41\u0e25\u0e30\u0e21\u0e2b\u0e32\u0e27\u0e34\u0e17\u0e22\u0e32\u0e25\u0e31\u0e22\u0e23\u0e31\u0e10\u0e40\u0e1e\u0e19\u0e0b\u0e34\u0e25\u0e27\u0e32\u0e40\u0e19\u0e35\u0e22 \u0e17\u0e35\u0e48\u0e2a\u0e2b\u0e23\u0e31\u0e10"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        238.0,
+                        2029.0
+                    ],
+                    [
+                        1184.0,
+                        2165.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e1e\u0e1a\u0e27\u0e48\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1204.0,
+                        2030.0
+                    ],
+                    [
+                        1341.0,
+                        2152.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e2a\u0e31\u0e15\u0e27\u0e4c\u0e2b\u0e25\u0e32\u0e22\u0e0a\u0e19\u0e34\u0e14\u0e21\u0e35\u0e01\u0e32\u0e23\u0e40\u0e23\u0e35\u0e22\u0e07\u0e15\u0e31\u0e27\u0e02\u0e2d\u0e07\u0e22\u0e35\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        228.0,
+                        2309.0
+                    ],
+                    [
+                        1078.0,
+                        2431.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e17\u0e35\u0e48\u0e16\u0e48\u0e32\u0e22\u0e17\u0e2d\u0e14\u0e21\u0e32\u0e08\u0e32\u0e01\u0e1a\u0e23\u0e23\u0e1e\u0e1a\u0e38\u0e23\u0e38\u0e29\u0e40\u0e14\u0e35\u0e22\u0e27\u0e01\u0e31\u0e19"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        240.0,
+                        2545.0
+                    ],
+                    [
+                        1097.0,
+                        2672.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e17\u0e49\u0e2d\u0e41\u0e17\u0e49\u0e44\u0e14\u0e49 \u0e41\u0e15\u0e48\u0e2d\u0e22\u0e48\u0e32\u0e17\u0e49\u0e2d\u0e16\u0e2d\u0e22"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        220.0,
+                        2806.0
+                    ],
+                    [
+                        838.0,
+                        2915.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e2d\u0e34\u0e08\u0e09\u0e32\u0e44\u0e14\u0e49 \u0e41\u0e15\u0e48\u0e2d\u0e22\u0e48\u0e32\u0e23\u0e34\u0e29\u0e22\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        849.0,
+                        2812.0
+                    ],
+                    [
+                        1359.0,
+                        2912.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e1e\u0e31\u0e01\u0e44\u0e14\u0e49 \u0e41\u0e15\u0e48\u0e2d\u0e22\u0e48\u0e32\u0e2b\u0e22\u0e38\u0e14"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1387.0,
+                        2793.0
+                    ],
+                    [
+                        1890.0,
+                        2913.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e0a\u0e49\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        256.0,
+                        3035.0
+                    ],
+                    [
+                        337.0,
+                        3169.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e44\u0e21\u0e48\u0e44\u0e14\u0e49\u0e41\u0e1b\u0e25\u0e27\u0e48\u0e32"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        338.0,
+                        3043.0
+                    ],
+                    [
+                        653.0,
+                        3171.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e08\u0e30\u0e44\u0e1b\u0e44\u0e21\u0e48\u0e16\u0e36\u0e07"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        692.0,
+                        3031.0
+                    ],
+                    [
+                        1006.0,
+                        3159.0
+                    ]
+                ],
+                "interior": []
+            }
+        },
+        {
+            "description": "",
+            "bitmap": null,
+            "tags": [
+                "\u0e15\u0e32\u0e21\u0e17\u0e24\u0e29\u0e0e\u0e35\u0e27\u0e34\u0e27\u0e31\u0e12\u0e19\u0e32\u0e01\u0e32\u0e23\u0e2a\u0e31\u0e15\u0e27\u0e4c"
+            ],
+            "classTitle": "text",
+            "points": {
+                "exterior": [
+                    [
+                        1118.0,
+                        2555.0
+                    ],
+                    [
+                        1778.0,
+                        2693.0
+                    ]
+                ],
+                "interior": []
+            }
+        }
+    ],
+    "size": {
+        "height": 3432,
+        "width": 2320
+    }
+}
