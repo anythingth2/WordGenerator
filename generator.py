@@ -23,9 +23,8 @@ class CharacterDataset:
 
         imgs = [np.asarray(Image.open(os.path.join(path, imgPath)))
                 for imgPath in os.listdir(path)]
-        if len(imgs[0].shape) != 2:
-            imgs = [cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    for img in imgs]
+        imgs = list(map(lambda img:cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape)!=2 else img, imgs))
+
 
         # imgs = [np.ones((30,30),dtype='uint8')*255
         #         for imgPath in os.listdir(path)]
