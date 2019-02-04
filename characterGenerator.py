@@ -126,7 +126,7 @@ class SuperviselyDecoder:
         imgDatasetPath = datasetPath + '/img'
         anntationPath = datasetPath + '/ann'
         
-        self.imagePackages = []
+        # self.imagePackages = []
         for annoPath in os.listdir(anntationPath):
             filename = '.'.join(annoPath.split('.')[:-1])
             imgPath = glob.glob(imgDatasetPath + '/' + filename + '*')[0]
