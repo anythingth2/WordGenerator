@@ -21,8 +21,11 @@ class CharacterDataset:
 
         label = os.path.basename(path)
 
-        imgs = [cv2.cvtColor(np.asarray(Image.open(os.path.join(path, imgPath))), cv2.COLOR_BGR2GRAY)
+        imgs = [np.asarray(Image.open(os.path.join(path, imgPath)))
                 for imgPath in os.listdir(path)]
+        if len(imgs[0].shape) != 2:
+            imgs = [cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    for img in imgs]
 
         # imgs = [np.ones((30,30),dtype='uint8')*255
         #         for imgPath in os.listdir(path)]
@@ -133,11 +136,11 @@ class Word:
             h, w = thumpnail.shape
             x, y = pos
             img[y:y+h, x:x+w] = thumpnail
-            
+            # print(x,y,w,h)
             
         SIZE = 50
         img = np.ones(np.array(self.grid.shape) * 50, dtype='uint8')*255
-        startY = 100
+        startY = 150
         cursorX = 0
         cursorY = startY
         for index in range(self.grid.shape[1]):
@@ -221,6 +224,6 @@ ignoreChar ='.ๅำ'
 generator = Generator('characters', randomOffset=False)
 # generator.imshow(generator.generate(
 #     'ฉัตรชัย'))
-generator.generateAndSave('test_output', ['ฉั้ตูรชั๋ย'])
-# generator.generateAndSave(
-#     'output', [dataset_generator.generateWord(i,ignoreChar) for i in range(10, 100)])
+# generator.generateAndSave('test_output', ['ฉั้ตูรชั๋ย'])
+generator.generateAndSave(
+    'output', [dataset_generator.generateWord(i,ignoreChar) for i in range(10, 100)])

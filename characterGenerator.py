@@ -29,36 +29,71 @@ class ImagePackage:
         originalImg = img.copy()
 
         img = cv2.medianBlur(img, 5)
-        _, img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY+cv2.THRESH_OTSU)
-        _, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, 3)
-        contours.sort(key=lambda cnt: cv2.contourArea(cnt, True), reverse=True)
-        cnt = contours[0]
-        x, y, w, h = cv2.boundingRect(cnt)
-        img = originalImg[y:y+h, x:x+w]
+        # _, img = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        img = cv2.adaptiveThreshold(img, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 4)
+        # cv2.imshow('thres', img)
 
+        # _, contours, hierarchy = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+        # contours.sort(key=lambda cnt: cv2.contourArea(cnt, True), reverse=True)
+        # cnt = sorted(contours, key=cv2.contourArea)[-1]
+        # print(cnt)
+        h, w = 0, 0
+        y, x = img.shape
+        for _x in range(img.shape[1]):
+            for _y in range(img.shape[0]):
+                if img[_y][_x] == 0:
+                    if _x < x:
+                        x = _x
+                    if _y < y:
+                        y = _y
+                    if _x > w:
+                        w = _x
+                    if _y > h:
+                        h = _y
+
+        h = h - y
+        w = w - x
+        padding = 2
+        if x - padding >= 0:
+            x -= padding
+        else:
+            x = 0
+        if y - padding >= 0:
+            y -= padding
+        else:
+            y = 0
+        if w + padding < img.shape[1]:
+            w += padding
+        else:
+            w = img.shape[1]
+        if h + padding < img.shape[0]:
+            h += padding
+        else:
+            h = img.shape[0]
+        img = originalImg[y:y + h, x:x + w]
         if w < h:
-            factor = ImagePackage.SIZE/h
+            factor = ImagePackage.SIZE / h
         else:
             factor = ImagePackage.SIZE / w
-        img = cv2.resize(img, None, fx=factor, fy=factor,)
-        h, w = img.shape
-        top, bottom, left, right = 0, 0, 0, 0
-        if w < h:
-            left = (ImagePackage.SIZE-w)//2
-            right = left
-        else:
-            top = (ImagePackage.SIZE-h)//2
-            bottom = top
-        if left+right+w < ImagePackage.SIZE:
-            left += 1
-        if top+bottom+h < ImagePackage.SIZE:
-            top += 1
-        img = cv2.copyMakeBorder(
-            img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
+        # img = cv2.resize(img, None, fx=factor, fy=factor, )
+        # h, w = img.shape
+        # top, bottom, left, right = 0, 0, 0, 0
+        # if w < h:
+        #     left = (ImagePackage.SIZE - w) // 2
+        #     right = left
+        # else:
+        #     top = (ImagePackage.SIZE - h) // 2
+        #     bottom = top
+        # if left + right + w < ImagePackage.SIZE:
+        #     left += 1
+        # if top + bottom + h < ImagePackage.SIZE:
+        #     top += 1
+        # img = cv2.copyMakeBorder(
+        #     img, top, bottom, left, right, cv2.BORDER_CONSTANT, value=255)
 
         return img
 
-    def createCharacter(self,):
+    def createCharacter(self, ):
         objs = self.annotation['objects']
         self.characters = []
         for obj in objs:
@@ -68,7 +103,7 @@ class ImagePackage:
             left, top, right, bottom = int(left), int(
                 top), int(right), int(bottom)
             cropImage = self.image[top:bottom, left:right]
-            # cropImage = self.__preprocess(cropImage)
+            cropImage = self.__preprocess(cropImage)
             tags = obj['tags']
             if len(tags) > 0:
                 tag = tags[0]
@@ -92,9 +127,9 @@ class SuperviselyDecoder:
             filename = annoPath.split('.')[0]
             imgPath = glob.glob(self.datasetPath + '/' + filename + '*')[0]
             img = cv2.imread(imgPath)
-            with open(self.annotationsPath + '/'+annoPath, 'r', encoding='utf-8') as f:
+            with open(self.annotationsPath + '/' + annoPath, 'r', encoding='utf-8') as f:
                 annotation = json.loads(f.read(), encoding='utf-8')
-            print(annoPath.center(15, '-',))
+            print(annoPath.center(15, '-', ))
             self.imagePackages.append(ImagePackage(img, annotation))
 
     def decodeTo(self, outputPath):
@@ -105,7 +140,7 @@ class SuperviselyDecoder:
         for imagePackage in self.imagePackages:
             for character in imagePackage.characters:
                 if len(character.tag) == 1:
-                    savedFolder = outputPath + '/'+character.tag
+                    savedFolder = outputPath + '/' + character.tag
                     if not os.path.exists(savedFolder):
                         os.mkdir(savedFolder)
                     i += 1
