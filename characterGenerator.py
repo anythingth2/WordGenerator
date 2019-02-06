@@ -6,7 +6,7 @@ import os
 import json
 import cv2
 import glob
-
+import random
 
 class Character:
     def __init__(self, image, tag):
@@ -129,7 +129,11 @@ class SuperviselyDecoder:
         # self.imagePackages = []
         for annoPath in os.listdir(anntationPath):
             filename = '.'.join(annoPath.split('.')[:-1])
-            imgPath = glob.glob(imgDatasetPath + '/' + filename + '*')[0]
+            imgPaths = glob.glob(imgDatasetPath + '/' + filename + '.*')
+            print(imgPaths,len(imgPaths))
+            print()
+            imgPath = imgPaths[0]
+            
             img = cv2.imread(imgPath)
             with open(anntationPath + '/' + annoPath, 'r', encoding='utf-8') as f:
                 annotation = json.loads(f.read(), encoding='utf-8')
@@ -162,4 +166,3 @@ class SuperviselyDecoder:
 decoder = SuperviselyDecoder(
    glob.glob('./datasets/*'))
 decoder.decodeCharacterTo('./characters')
-decoder.decodeSentence()
