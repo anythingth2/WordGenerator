@@ -149,7 +149,12 @@ class Word:
                 print('error paste image',x,y,w,h,img.shape)
                 exit()
         def calculateMaxHeight(columnImg):
-            return sum(list(map(lambda img:img.shape[0] if img !=None else 0,columnDataset)))
+            heights = []
+            for img in columnImg:
+                if img is not None:
+                    heights.append(img.shape[0])
+            return sum(heights)
+
 
         # if self.maxWidth == None or self.maxHeight == None:
         #     SIZE = 125
@@ -162,12 +167,16 @@ class Word:
             for j,cell in enumerate(row):
                 if cell !=None:
                     imgGrid[i,j] = imgGrid[i,j].getRandomImage()
-        columnHeights = list(map(calculateMaxHeight,imgGrid.T))
-        columnHeights.sort(reverse=True)
-        maxHeight = columnHeights[0]
-        maxWidth = 100
-        img = img = np.ones(np.array(self.grid.shape) * (maxHeight,maxWidth) , dtype='uint8')*255
-        startY = int(img.shape[0]*0.7)
+        
+        # columnHeights = list(map(calculateMaxHeight,imgGrid.T))
+        # columnHeights.sort(reverse=True)
+        columnHeights = list(imgGrid.T)
+        columnHeights.sort(key=calculateMaxHeight,reverse=True)
+        columnMaxHeight  = list(map(lambda img: img.shape[0] if img is not None else 0,columnHeights[0]))
+        maxHeight = sum(columnMaxHeight)+100
+        maxWidth = self.grid.shape[1]*100
+        img = img = np.ones((maxHeight,maxWidth) , dtype='uint8')*255
+        startY = sum(columnMaxHeight[:2]) + 100
         cursorX = 0
         cursorY = startY
         for index in range(self.grid.shape[1]):
@@ -251,7 +260,10 @@ class Generator:
         i = 0
         for word in words:
             i += 1
-            img = self.generate(word)
+            try:
+                img = self.generate(word)
+            except:
+                print('error generate image')
             cv2.imwrite(os.path.join(path, '{}.png'.format(word)), img)
 
     def imshow(self, img):
