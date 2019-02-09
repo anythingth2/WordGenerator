@@ -40,7 +40,10 @@ class CharacterDataset:
         widths = list(map(lambda img:img.shape[1],self.imgs))
         heights = list(map(lambda img:img.shape[0],self.imgs))
         return max(heights),max(widths)
-
+    def getMeanShape(self):
+        widths = list(map(lambda img:img.shape[1],self.imgs))
+        heights = list(map(lambda img:img.shape[0],self.imgs))
+        return sum(heights)//len(heights), sum(widths)//len(widths)
 class Word:
 
     UPPER_CHARACTERS = 'ิีึื็่้๊๋์ํ๎ั'
@@ -99,6 +102,7 @@ class Word:
         else:
             img = np.ones(np.array(self.grid.shape)*SIZE, dtype='uint8')*255
 
+        
         for i, row in enumerate(self.grid):
             for j, charDataset in enumerate(row):
                 if charDataset is not None:
@@ -139,15 +143,31 @@ class Word:
             thumpnail = thumpnail.copy()
             h, w = thumpnail.shape
             x, y = pos
-            img[y:y+h, x:x+w] = thumpnail
-            # print(x,y,w,h)
-        if self.maxWidth == None or self.maxHeight == None:
-            SIZE = 50
-            img = np.ones(np.array(self.grid.shape) * SIZE, dtype='uint8')*255
-        else:
-            img = np.ones(np.array(self.grid.shape) * (self.maxHeight,self.maxWidth) , dtype='uint8')*255
-            
-        startY = 150
+            try:
+                img[y:y+h, x:x+w] = thumpnail
+            except ValueError:
+                print('error paste image',x,y,w,h,img.shape)
+                exit()
+        def calculateMaxHeight(columnImg):
+            return sum(list(map(lambda img:img.shape[0] if img !=None else 0,columnDataset)))
+
+        # if self.maxWidth == None or self.maxHeight == None:
+        #     SIZE = 125
+        #     img = np.ones(np.array(self.grid.shape) * SIZE, dtype='uint8')*255
+        # else:
+        #     img = np.ones(np.array(self.grid.shape) * (self.maxHeight,self.maxWidth) , dtype='uint8')*255
+        
+        imgGrid = self.grid.copy()
+        for i,row in enumerate(imgGrid):
+            for j,cell in enumerate(row):
+                if cell !=None:
+                    imgGrid[i,j] = imgGrid[i,j].getRandomImage()
+        columnHeights = list(map(calculateMaxHeight,imgGrid.T))
+        columnHeights.sort(reverse=True)
+        maxHeight = columnHeights[0]
+        maxWidth = 100
+        img = img = np.ones(np.array(self.grid.shape) * (maxHeight,maxWidth) , dtype='uint8')*255
+        startY = int(img.shape[0]*0.7)
         cursorX = 0
         cursorY = startY
         for index in range(self.grid.shape[1]):
@@ -205,17 +225,24 @@ class Generator:
         maxHeight = max(list(map(lambda shape:shape[1],shapes)))
         return maxHeight,maxWidth
     
+    def __getMeanShapeCharacterDatasets(self):
+        shapes = list(map(lambda characterDataset: characterDataset.getMeanShape(),self.charDatasets))
+        meanWidth = max(list(map(lambda shape:shape[0],shapes)))
+        meanHeight = max(list(map(lambda shape:shape[1],shapes)))
+        return np.array([meanHeight, meanHeight])
+    
     def generate(self, word):
         chars = list(word)
-        word = Word(randomOffset=self.randomOffset,)
+        maxShape = self.__getMaxShapeCharacterDatasets()
+        meanShape =( self.__getMeanShapeCharacterDatasets()*1).astype('int')
+
+        word = Word(randomOffset=self.randomOffset,maxHeight=meanShape[0],maxWidth=meanShape[1])
         for char in chars:
             try:
                 charDataset = self.__getDatasetByChar(char)
                 word.push(charDataset)
             except:
                 print(char, end='')
-                # exit()
-
         return word.renderDynamic()
 
     def generateAndSave(self, path, words):

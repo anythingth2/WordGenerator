@@ -8,6 +8,8 @@ import cv2
 import glob
 import random
 
+countCropImage = 0
+
 class Character:
     def __init__(self, image, tag):
         self.image = image
@@ -112,13 +114,16 @@ class ImagePackage:
             else:
                 continue
             self.characters.append(Character(cropImage, tag))
+            global countCropImage
+            countCropImage += 1
 
 
 class SuperviselyDecoder:
     IMAGE_FORMATS = ['bmp', 'jpg', 'jpeg', 'png']
 
-    def __init__(self, datasetPaths):
+    def __init__(self, datasetPaths,scale=1):
         self.imagePackages = []
+        self.scale = scale
         for datasetPath in datasetPaths:
             self.__load(datasetPath)
 
@@ -130,14 +135,16 @@ class SuperviselyDecoder:
         for annoPath in os.listdir(anntationPath):
             filename = '.'.join(annoPath.split('.')[:-1])
             imgPaths = glob.glob(imgDatasetPath + '/' + filename + '.*')
-            print(imgPaths,len(imgPaths))
-            print()
-            imgPath = imgPaths[0]
+
+            if len(imgPaths) == 1:
+                imgPath = imgPaths[0]
+            else:
+                print(imgPaths)
             
             img = cv2.imread(imgPath)
             with open(anntationPath + '/' + annoPath, 'r', encoding='utf-8') as f:
                 annotation = json.loads(f.read(), encoding='utf-8')
-            print(annoPath.center(16, '-', ))
+            print(annoPath.center(16, '-', ),imgPath)
             self.imagePackages.append(ImagePackage(img, annotation))
 
     def decodeCharacterTo(self, outputPath):
@@ -151,7 +158,9 @@ class SuperviselyDecoder:
                     if not os.path.exists(savedFolder):
                         os.mkdir(savedFolder)
                     i += 1
-                    Image.fromarray(character.image).save(
+                    img = character.image.copy()
+                    img = cv2.resize(img,None,fx=self.scale,fy=self.scale)
+                    Image.fromarray(img).save(
                         '{}/{}.png'.format(savedFolder, i))
     def decodeSentence(self):
         imgs = []
@@ -164,5 +173,7 @@ class SuperviselyDecoder:
         return imgs, tags
 
 decoder = SuperviselyDecoder(
-   glob.glob('./datasets/*'))
+   glob.glob('./datasets/*'),scale = 2)
+
 decoder.decodeCharacterTo('./characters')
+# imgs,tags = decoder.decodeSentence()
